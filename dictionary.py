@@ -3,11 +3,16 @@ class Dictionary:
         self.traduzioni = {}
 
     def addWord(self, parola_aliena: str, traduzione: str):
-        self.traduzioni[parola_aliena] = traduzione
+        if parola_aliena in self.traduzioni:
+            self.traduzioni[parola_aliena].append(traduzione)
+        else:
+            self.traduzioni[parola_aliena] = [traduzione]
 
-    def translate(self):
-        pass
-
+    def translate(self, parola_aliena: str):
+        return self.traduzioni.get(parola_aliena, None)
 
     def translateWordWildCard(self):
         pass
+
+    def __repr__(self):
+        return self.traduzioni.__repr__()

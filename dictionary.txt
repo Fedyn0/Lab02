@@ -106,3 +106,6 @@ lehti rivista
 sanomalehti giornale
 kynä penna
 paperi carta
+rost morte ingiusta
+rost stramurt
+rost mortissimo
