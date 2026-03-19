@@ -66,7 +66,8 @@ class Translator:
         else:
             if len(traduzioni) > 1:
                 print(f"'{parola_da_tradurre}' ha diverse traduzioni, ovvero: ")
-                for i in traduzioni: print(f"'{i}'")
+                for i in traduzioni:
+                    print(f"'{i}'")
 
             else:
                 print(f"La traduzione di '{parola_da_tradurre}' è '{traduzioni[0]}'")
@@ -75,20 +76,26 @@ class Translator:
     def handleWildCard(self,query):
         # query is a string with a ? --> <par?la_aliena>
 
-        if query.count("?") != 1:
+        if query.count("?") == 0:
+            print("Se conosci interamente la parola, clicca il tasto 2, altrimenti inserisci almeno un '?'")
+            return
+
+        if query.count("?") > 1:
             print("Errore: è possibile inserire solo un '?'")
             return
 
-        query = query.replace("?",".")
+        pattern = query.replace("?",".")
 
-        for i in self.dizionario.traduzioni.keys():
-            risultato = re.fullmatch(query, i)
-            if risultato:
-                if self.dizionario.translate(i) > 1:
-                    print(f"La parola che cercavi è {i}, che ha diverse traduzioni:")
-                    for j in self.dizionario.translate(i):
-                        print(f"'{j}'")
-                print(f"La parola che cercavi è {i}, che in italiano significa {self.dizionario.translate(i)}")
+        parole_trovate = self.dizionario.translateWordWildCard(pattern)
 
+        if not parole_trovate:  # Se il dizionario restituito è vuoto
+            print("Nessuna parola trovata con questo criterio.")
+            return
 
-        pass
+        for parola_aliena, traduzioni in parole_trovate.items():
+            if len(traduzioni) > 1:
+                print(f"La parola che cercavi è '{parola_aliena}', che ha diverse traduzioni: ")
+                for i in traduzioni:
+                    print(f"'{i}'")
+            else:
+                print(f"La parola che cercavi è '{parola_aliena}', che in italiano significa '{traduzioni[0]}'")
