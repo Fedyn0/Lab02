@@ -1,4 +1,5 @@
 from dictionary import Dictionary
+import re
 
 class Translator:
 
@@ -73,4 +74,21 @@ class Translator:
 
     def handleWildCard(self,query):
         # query is a string with a ? --> <par?la_aliena>
+
+        if query.count("?") != 1:
+            print("Errore: è possibile inserire solo un '?'")
+            return
+
+        query = query.replace("?",".")
+
+        for i in self.dizionario.traduzioni.keys():
+            risultato = re.fullmatch(query, i)
+            if risultato:
+                if self.dizionario.translate(i) > 1:
+                    print(f"La parola che cercavi è {i}, che ha diverse traduzioni:")
+                    for j in self.dizionario.translate(i):
+                        print(f"'{j}'")
+                print(f"La parola che cercavi è {i}, che in italiano significa {self.dizionario.translate(i)}")
+
+
         pass
